@@ -2,18 +2,12 @@ using FlightManagementWebAPI.DatabaseContext;
 using FlightManagementWebAPI.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text.Json.Serialization;
 
 namespace FlightManagementWebAPI
 {
@@ -37,6 +31,10 @@ namespace FlightManagementWebAPI
             });
             services.AddDbContext<AirportSystemContext>(option => option.UseSqlServer(Configuration.GetConnectionString("AirportSystemConnection")));
             services.AddScoped<FlightRepository>();
+            services.AddScoped<CarrierRepository>();
+            services
+                .AddControllers()
+                    .AddJsonOptions(c => c.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

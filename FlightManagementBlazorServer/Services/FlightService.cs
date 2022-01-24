@@ -1,6 +1,7 @@
 ﻿using DomainModel.Models;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
@@ -19,7 +20,17 @@ namespace FlightManagementBlazorServer.Services
 
         public async Task<List<Flight>> GetFlights()
         {
-            return await _httpClient.GetFromJsonAsync<List<Flight>>(BaseApiUrl);
+            //var flights = await httpResponseMessage.Content.ReadFromJsonAsync<List<Flight>>();
+            var flights = await _httpClient.GetFromJsonAsync<List<Flight>>(BaseApiUrl);
+            /*var flights = await _httpClient.GetFromJsonAsync<List<Flight>>(BaseApiUrl,
+                new JsonSerializerOptions()
+                {
+                    ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve
+                }
+                );*/
+
+
+            return flights;
         }
 
         public async Task AddFlightAsync(Flight flight)

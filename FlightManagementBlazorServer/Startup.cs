@@ -10,6 +10,7 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace FlightManagementBlazorServer
@@ -32,6 +33,11 @@ namespace FlightManagementBlazorServer
             services.AddSingleton<WeatherForecastService>();
             services.AddHttpClient();
             services.AddScoped<FlightService>();
+            services.AddScoped<CarrierService>();
+            services.AddMvc().AddJsonOptions(o =>
+            {
+                o.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
